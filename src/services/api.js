@@ -1,6 +1,6 @@
 // API Service connecting React frontend to Python FastAPI + Motor + MongoDB
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://fintech-backend-665x.onrender.com';
 
 /**
  * Helper to get authorization headers with Bearer token from localStorage
