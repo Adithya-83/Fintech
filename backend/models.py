@@ -9,7 +9,8 @@ class UserRegister(BaseModel):
     password: str = Field(..., min_length=6, description="Password at least 6 characters")
     name: str = Field(..., min_length=2)
     handle: Optional[str] = None
-    role: Optional[str] = "Lead Quant Trader"
+    role: Optional[str] = Field(default="user", description="User role: 'user' or 'admin'")
+    title: Optional[str] = Field(default="Lead Quant Trader", description="Trader title/specialization")
 
 class UserLogin(BaseModel):
     email: EmailStr
@@ -20,7 +21,8 @@ class UserResponse(BaseModel):
     email: str
     name: str
     handle: str
-    role: str
+    role: str = "user"
+    title: Optional[str] = "Lead Quant Trader"
     tier: str
     avatar: str
     walletAddress: str
@@ -80,3 +82,20 @@ class DashboardSummaryResponse(BaseModel):
     sharpeRatio: float
     winRate: str
     maxDrawdown: str
+
+# --- Admin & RBAC Models ---
+
+class RoleUpdateRequest(BaseModel):
+    role: str = Field(..., description="Target role: 'user' or 'admin'")
+
+class AdminStatsResponse(BaseModel):
+    totalUsers: int
+    totalTransactions: int
+    totalVolumeUSD: float
+    formattedTotalVolume: str
+    avgTransactionValue: float
+    activeUsers24h: int
+    volumeByType: dict
+    countByType: dict
+    recentUsers: List[dict]
+    systemStatus: dict

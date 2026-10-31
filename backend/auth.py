@@ -23,8 +23,10 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
         return False
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -> str:
-    """Create a signed JWT token."""
+    """Create a signed JWT token including sub, id, and role."""
     to_encode = data.copy()
+    if "role" not in to_encode:
+        to_encode["role"] = "user"
     if expires_delta:
         expire = datetime.now(timezone.utc) + expires_delta
     else:
@@ -46,6 +48,7 @@ async def get_current_user(credentials: Optional[HTTPAuthorizationCredentials] =
     try:
         payload = jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGORITHM])
         email: str = payload.get("sub")
+        token_role: Optional[str] = payload.get("role")
         if email is None:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
@@ -65,4 +68,26 @@ async def get_current_user(credentials: Optional[HTTPAuthorizationCredentials] =
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="User not found",
         )
+    
+    # Normalize role from DB document or token payload (defaulting to 'user')
+    db_role = user.get("role")
+    if db_role:
+        user["role"] = "admin" if str(db_role).lower() == "admin" else "user"
+    else:
+        user["role"] = "admin" if str(token_role).lower() == "admin" else "user"
+
     return user
+
+async def require_admin(current_user: dict = Depends(get_current_user)):
+    """
+    Role-Based Access Control (RBAC) dependency.
+    Strictly verifies that the authenticated user possesses the 'admin' role.
+    Raises HTTP 403 Forbidden if the user's role is not 'admin'.
+    """
+    user_role = str(current_user.get("role", "user")).lower()
+    if user_role != "admin":
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Forbidden: Admin clearance required for platform-wide analytics."
+        )
+    return current_user

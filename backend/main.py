@@ -3,9 +3,9 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
-from config import BACKEND_PORT, MONGODB_URI, DATABASE_NAME
+from config import BACKEND_PORT, MONGODB_URL, DATABASE_NAME
 from database import connect_to_mongo, close_mongo_connection, db_instance
-from routes import auth_routes, transaction_routes
+from routes import auth_routes, transaction_routes, admin_routes
 
 # Configure logging
 logging.basicConfig(
@@ -45,9 +45,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Register API Routers
+# Register API Routers with /api prefix as well as root level for flexibility
 app.include_router(auth_routes.router, prefix="/api")
+app.include_router(auth_routes.router)  # exposes /signup, /login directly
 app.include_router(transaction_routes.router, prefix="/api")
+app.include_router(transaction_routes.router)  # exposes /transactions directly
+app.include_router(admin_routes.router, prefix="/api")
+app.include_router(admin_routes.router)  # exposes /admin/stats directly
 
 @app.get("/", tags=["Health"])
 @app.get("/api/health", tags=["Health"])
@@ -69,18 +73,20 @@ async def health_check():
         "database": {
             "driver": "motor (asyncio)",
             "status": "CONNECTED" if is_connected else "DISCONNECTED",
-            "mongodb_uri": MONGODB_URI,
+            "mongodb_url": MONGODB_URL,
             "database_name": DATABASE_NAME,
             "mongo_version": mongo_version,
             "compass_connection_string": "mongodb://localhost:27017"
         },
         "endpoints": {
-            "auth_register": "POST /api/auth/register",
-            "auth_login": "POST /api/auth/login",
-            "auth_me": "GET /api/auth/me",
-            "get_transactions": "GET /api/transactions",
-            "create_transaction": "POST /api/transactions",
-            "dashboard_summary": "GET /api/transactions/summary"
+            "auth_signup": "POST /signup or POST /api/signup",
+            "auth_login": "POST /login or POST /api/login",
+            "auth_me": "GET /api/me (Protected: Bearer Token)",
+            "get_transactions": "GET /transactions or GET /api/transactions (Protected: Bearer Token)",
+            "create_transaction": "POST /transactions or POST /api/transactions (Protected: Bearer Token)",
+            "dashboard_summary": "GET /api/transactions/summary (Protected: Bearer Token)",
+            "admin_stats": "GET /admin/stats or GET /api/admin/stats (Protected: Admin Role Required)",
+            "admin_users": "GET /admin/users or GET /api/admin/users (Protected: Admin Role Required)"
         }
     }
 

@@ -1,6 +1,6 @@
 import logging
 from motor.motor_asyncio import AsyncIOMotorClient
-from config import MONGODB_URI, DATABASE_NAME
+from config import MONGODB_URL, DATABASE_NAME
 
 logger = logging.getLogger("fintech-backend")
 
@@ -13,8 +13,8 @@ db_instance = MongoDB()
 async def connect_to_mongo():
     """Connect to MongoDB using Motor async driver."""
     try:
-        logger.info(f"Connecting to MongoDB at {MONGODB_URI} (Database: {DATABASE_NAME})...")
-        db_instance.client = AsyncIOMotorClient(MONGODB_URI, serverSelectionTimeoutMS=5000)
+        logger.info(f"Connecting to MongoDB at {MONGODB_URL} (Database: {DATABASE_NAME})...")
+        db_instance.client = AsyncIOMotorClient(MONGODB_URL, serverSelectionTimeoutMS=5000)
         # Ping the server to ensure connection is live
         await db_instance.client.admin.command('ping')
         db_instance.db = db_instance.client[DATABASE_NAME]
@@ -187,3 +187,48 @@ async def init_collections():
         ]
         await db.transactions.insert_many(seed_transactions)
         logger.info("Successfully seeded 8 transactions into MongoDB fintech_db!")
+
+    # Check and seed default Admin and Demo user for seamless testing
+    try:
+        from auth import hash_password
+        admin_exists = await db.users.find_one({"email": "admin@aether.io"})
+        if not admin_exists:
+            logger.info("Seeding root admin user into MongoDB...")
+            admin_user = {
+                "id": "usr_admin_001",
+                "email": "admin@aether.io",
+                "password_hash": hash_password("adminpassword123"),
+                "name": "Sarah Connor",
+                "handle": "@aether_admin",
+                "role": "admin",
+                "title": "Platform Administrator",
+                "tier": "ADMIN ACCESS // CLEARANCE 5",
+                "avatar": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=250",
+                "walletAddress": "0xADMIN8492049182390192830192830192830192a",
+                "riskScore": 99,
+                "systemStatus": "ROOT_ADMIN",
+                "created_at": "2026-10-01T00:00:00Z",
+            }
+            await db.users.update_one({"email": "admin@aether.io"}, {"$set": admin_user}, upsert=True)
+
+        demo_exists = await db.users.find_one({"email": "testquant@aether.io"})
+        if not demo_exists:
+            logger.info("Seeding demo quant trader user into MongoDB...")
+            demo_user = {
+                "id": "usr_demo_001",
+                "email": "testquant@aether.io",
+                "password_hash": hash_password("strongpassword123"),
+                "name": "Alex Vance",
+                "handle": "@vance_quant",
+                "role": "user",
+                "title": "Lead Quant Trader",
+                "tier": "PRO TERMINAL // TIER 3",
+                "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=250",
+                "walletAddress": "0x71C94829F8a06eDe2E181283626159f81C434b92",
+                "riskScore": 84,
+                "systemStatus": "OPTIMAL",
+                "created_at": "2026-10-10T12:00:00Z",
+            }
+            await db.users.update_one({"email": "testquant@aether.io"}, {"$set": demo_user}, upsert=True)
+    except Exception as user_seed_err:
+        logger.warning(f"Note on seeding default users: {user_seed_err}")

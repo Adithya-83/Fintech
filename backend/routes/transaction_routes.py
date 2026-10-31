@@ -4,6 +4,7 @@ from datetime import datetime, timezone
 from typing import Optional
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from database import get_database
+from auth import get_current_user
 from models import (
     TransactionCreate, 
     TransactionResponse, 
@@ -34,11 +35,12 @@ async def get_transactions(
     type: Optional[str] = Query(None, description="Filter by type: BUY, SELL, STAKING, DEPOSIT, etc."),
     search: Optional[str] = Query(None, description="Search by asset name, ticker symbol, or tx hash"),
     limit: int = Query(50, ge=1, le=100),
+    current_user: dict = Depends(get_current_user),
     db=Depends(get_database)
 ):
     """
     Fetch recent transactions from MongoDB.
-    Supports filtering by transaction type and text search.
+    PROTECTED: Requires a valid Bearer JWT token.
     """
     query = {}
 
@@ -87,11 +89,12 @@ async def get_transactions(
 @router.post("", response_model=TransactionResponse, status_code=status.HTTP_201_CREATED)
 async def create_transaction(
     tx_in: TransactionCreate,
+    current_user: dict = Depends(get_current_user),
     db=Depends(get_database)
 ):
     """
     Create and store a new transaction in MongoDB.
-    Generates cryptographic proof hashes and records execution time.
+    PROTECTED: Requires a valid Bearer JWT token.
     """
     now = datetime.now(timezone.utc)
     date_str = now.strftime("%Y-%m-%d %H:%M:%S")
@@ -104,6 +107,8 @@ async def create_transaction(
 
     new_tx_doc = {
         "id": tx_id,
+        "user_id": current_user.get("id"),
+        "user_email": current_user.get("email"),
         "type": tx_in.type.upper(),
         "asset": tx_in.asset,
         "symbol": tx_in.symbol.upper(),
@@ -140,11 +145,14 @@ async def create_transaction(
     )
 
 @router.get("/summary", response_model=DashboardSummaryResponse)
-async def get_dashboard_summary(db=Depends(get_database)):
+async def get_dashboard_summary(
+    current_user: dict = Depends(get_current_user),
+    db=Depends(get_database)
+):
     """
     Fetch high-level dashboard metrics and balance summary from MongoDB.
+    PROTECTED: Requires a valid Bearer JWT token.
     """
-    # Count transactions
     tx_count = await db.transactions.count_documents({})
 
     return DashboardSummaryResponse(
