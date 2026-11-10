@@ -191,15 +191,15 @@ async def init_collections():
     # Check and seed default Admin and Demo user for seamless testing
     try:
         from auth import hash_password
-        admin_exists = await db.users.find_one({"email": "admin@aether.io"})
+        admin_exists = await db.users.find_one({"email": "admin@FinSphere.io"})
         if not admin_exists:
             logger.info("Seeding root admin user into MongoDB...")
             admin_user = {
                 "id": "usr_admin_001",
-                "email": "admin@aether.io",
+                "email": "admin@FinSphere.io",
                 "password_hash": hash_password("adminpassword123"),
                 "name": "Sarah Connor",
-                "handle": "@aether_admin",
+                "handle": "@FinSphere_admin",
                 "role": "admin",
                 "title": "Platform Administrator",
                 "tier": "ADMIN ACCESS // CLEARANCE 5",
@@ -209,14 +209,14 @@ async def init_collections():
                 "systemStatus": "ROOT_ADMIN",
                 "created_at": "2026-10-01T00:00:00Z",
             }
-            await db.users.update_one({"email": "admin@aether.io"}, {"$set": admin_user}, upsert=True)
+            await db.users.update_one({"email": "admin@FinSphere.io"}, {"$set": admin_user}, upsert=True)
 
-        demo_exists = await db.users.find_one({"email": "testquant@aether.io"})
+        demo_exists = await db.users.find_one({"email": "testquant@FinSphere.io"})
         if not demo_exists:
             logger.info("Seeding demo quant trader user into MongoDB...")
             demo_user = {
                 "id": "usr_demo_001",
-                "email": "testquant@aether.io",
+                "email": "testquant@FinSphere.io",
                 "password_hash": hash_password("strongpassword123"),
                 "name": "Alex Vance",
                 "handle": "@vance_quant",
@@ -229,6 +229,6 @@ async def init_collections():
                 "systemStatus": "OPTIMAL",
                 "created_at": "2026-10-10T12:00:00Z",
             }
-            await db.users.update_one({"email": "testquant@aether.io"}, {"$set": demo_user}, upsert=True)
+            await db.users.update_one({"email": "testquant@FinSphere.io"}, {"$set": demo_user}, upsert=True)
     except Exception as user_seed_err:
         logger.warning(f"Note on seeding default users: {user_seed_err}")

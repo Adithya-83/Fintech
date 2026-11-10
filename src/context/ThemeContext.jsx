@@ -9,7 +9,7 @@ const ThemeContext = createContext({
 
 export function ThemeProvider({ children }) {
   const [theme, setTheme] = useState(() => {
-    const savedTheme = localStorage.getItem('aether_theme');
+    const savedTheme = localStorage.getItem('FinSphere_theme');
     if (savedTheme === 'light' || savedTheme === 'dark') {
       return savedTheme;
     }
@@ -23,7 +23,7 @@ export function ThemeProvider({ children }) {
     } else {
       root.classList.remove('dark');
     }
-    localStorage.setItem('aether_theme', theme);
+    localStorage.setItem('FinSphere_theme', theme);
   }, [theme]);
 
   const toggleTheme = () => {

@@ -17,15 +17,15 @@ logger = logging.getLogger("fintech-backend")
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup: Connect to MongoDB via Motor
-    logger.info("Starting up Aether FinTech Backend...")
+    logger.info("Starting up FinSphere FinTech Backend...")
     await connect_to_mongo()
     yield
     # Shutdown: Close MongoDB connection
-    logger.info("Shutting down Aether FinTech Backend...")
+    logger.info("Shutting down FinSphere FinTech Backend...")
     await close_mongo_connection()
 
 app = FastAPI(
-    title="AETHER // Next-Gen FinTech Terminal API",
+    title="FinSphere // Next-Gen FinTech Terminal API",
     description="High-frequency Quant Investment API backed by MongoDB and FastAPI",
     version="2.4.0",
     lifespan=lifespan
@@ -69,7 +69,7 @@ async def health_check():
 
     return {
         "status": "ONLINE",
-        "service": "AETHER FinTech Quant Backend",
+        "service": "FinSphere FinTech Quant Backend",
         "database": {
             "driver": "motor (asyncio)",
             "status": "CONNECTED" if is_connected else "DISCONNECTED",

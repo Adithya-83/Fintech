@@ -1,4 +1,4 @@
-# 🚀 Aether Capital - FinTech Dashboard
+# 🚀 FinSphere Capital - FinTech Dashboard
 
 A modern, secure, and full-stack FinTech dashboard application built with a focus on seamless UI/UX and DevSecOps practices.
 

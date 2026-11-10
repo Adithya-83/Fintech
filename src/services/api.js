@@ -6,7 +6,7 @@ const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://fintech-backend-66
  * Helper to get authorization headers with Bearer token from localStorage
  */
 export function getAuthHeaders() {
-  const token = localStorage.getItem('aether_token');
+  const token = localStorage.getItem('FinSphere_token');
   const headers = {
     'Content-Type': 'application/json',
   };
@@ -20,15 +20,15 @@ export function getAuthHeaders() {
  * Check if user currently has a stored token
  */
 export function isAuthenticated() {
-  return !!localStorage.getItem('aether_token');
+  return !!localStorage.getItem('FinSphere_token');
 }
 
 /**
  * Log out user by clearing credentials
  */
 export function logoutUser() {
-  localStorage.removeItem('aether_token');
-  localStorage.removeItem('aether_user');
+  localStorage.removeItem('FinSphere_token');
+  localStorage.removeItem('FinSphere_user');
 }
 
 /**
@@ -62,8 +62,8 @@ export async function loginUser(email, password) {
 
   const data = await res.json();
   if (data.access_token) {
-    localStorage.setItem('aether_token', data.access_token);
-    localStorage.setItem('aether_user', JSON.stringify(data.user));
+    localStorage.setItem('FinSphere_token', data.access_token);
+    localStorage.setItem('FinSphere_user', JSON.stringify(data.user));
   }
   return data;
 }
@@ -91,8 +91,8 @@ export async function signupUser({ email, password, name, handle, role }) {
 
   const data = await res.json();
   if (data.access_token) {
-    localStorage.setItem('aether_token', data.access_token);
-    localStorage.setItem('aether_user', JSON.stringify(data.user));
+    localStorage.setItem('FinSphere_token', data.access_token);
+    localStorage.setItem('FinSphere_user', JSON.stringify(data.user));
   }
   return data;
 }
@@ -104,7 +104,7 @@ export const registerUser = signupUser;
  * Get current authenticated user profile
  */
 export async function getCurrentUser() {
-  const token = localStorage.getItem('aether_token');
+  const token = localStorage.getItem('FinSphere_token');
   if (!token) return null;
 
   try {
@@ -120,7 +120,7 @@ export async function getCurrentUser() {
     }
 
     const userData = await res.json();
-    localStorage.setItem('aether_user', JSON.stringify(userData));
+    localStorage.setItem('FinSphere_user', JSON.stringify(userData));
     return userData;
   } catch (err) {
     console.warn("Error fetching current user:", err.message);
@@ -256,9 +256,9 @@ export async function fetchAdminStats() {
       recentUsers: [
         {
           id: "usr_admin_001",
-          email: "admin@aether.io",
+          email: "admin@FinSphere.io",
           name: "Sarah Connor",
-          handle: "@aether_admin",
+          handle: "@FinSphere_admin",
           role: "admin",
           title: "Platform Administrator",
           tier: "ADMIN ACCESS // CLEARANCE 5",
@@ -268,7 +268,7 @@ export async function fetchAdminStats() {
         },
         {
           id: "usr_demo_001",
-          email: "testquant@aether.io",
+          email: "testquant@FinSphere.io",
           name: "Alex Vance",
           handle: "@vance_quant",
           role: "user",
@@ -306,7 +306,7 @@ export async function fetchAdminStats() {
       systemStatus: {
         rbacEnforced: true,
         requiredRole: "admin",
-        currentAdmin: "admin@aether.io",
+        currentAdmin: "admin@FinSphere.io",
         accessClearance: "TIER 5 ROOT ADMIN",
         activeSession: "AUTHENTICATED",
         protocol: "TLS 1.3 / PyJWT HS256",

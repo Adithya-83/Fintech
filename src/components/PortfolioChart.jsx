@@ -228,7 +228,7 @@ export default function PortfolioChart() {
                 strokeWidth: 2, 
                 className: 'filter drop-shadow-[0_0_12px_#00f2fe]' 
               }}
-              name="Aether Portfolio"
+              name="FinSphere Portfolio"
             />
           </AreaChart>
         </ResponsiveContainer>

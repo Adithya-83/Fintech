@@ -66,10 +66,10 @@ export function convertTransactionsToCSV(transactions) {
 /**
  * Triggers a secure browser file download of the transactions statement as CSV.
  * @param {Array<Object>} transactions - List of transaction objects
- * @param {string} [filename='aether_statement.csv'] - Target filename for download
+ * @param {string} [filename='FinSphere_statement.csv'] - Target filename for download
  * @returns {boolean} True if download was initiated successfully
  */
-export function downloadTransactionsCSV(transactions, filename = 'aether_statement.csv') {
+export function downloadTransactionsCSV(transactions, filename = 'FinSphere_statement.csv') {
   try {
     const csvData = convertTransactionsToCSV(transactions);
     if (!csvData) {

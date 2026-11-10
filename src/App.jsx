@@ -15,9 +15,9 @@ import AuthPage from './components/AuthPage';
 import { getCurrentUser, logoutUser } from './services/api';
 
 export default function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(() => !!localStorage.getItem('aether_token'));
+  const [isAuthenticated, setIsAuthenticated] = useState(() => !!localStorage.getItem('FinSphere_token'));
   const [currentUser, setCurrentUser] = useState(() => {
-    const saved = localStorage.getItem('aether_user');
+    const saved = localStorage.getItem('FinSphere_user');
     if (saved) {
       try {
         return JSON.parse(saved);

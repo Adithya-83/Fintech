@@ -121,7 +121,7 @@ export default function AdminDashboard({ currentUser, onNavigate }) {
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
-    link.setAttribute("download", `aether_platform_admin_analytics_${new Date().toISOString().slice(0,10)}.csv`);
+    link.setAttribute("download", `FinSphere_platform_admin_analytics_${new Date().toISOString().slice(0,10)}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -462,7 +462,7 @@ export default function AdminDashboard({ currentUser, onNavigate }) {
               <div className="flex justify-between items-center p-2.5 rounded-xl bg-slate-50 dark:bg-[#080d1a] border border-slate-200 dark:border-slate-800/80">
                 <span className="text-slate-600 dark:text-slate-400">Active Admin</span>
                 <span className="text-slate-800 dark:text-slate-200 font-bold truncate max-w-[130px]">
-                  {currentUser?.email || "admin@aether.io"}
+                  {currentUser?.email || "admin@FinSphere.io"}
                 </span>
               </div>
             </div>

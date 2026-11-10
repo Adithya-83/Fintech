@@ -68,7 +68,7 @@ export default function Sidebar({ activeTab, setActiveTab, isMobileOpen, setIsMo
               <div>
                 <div className="flex items-center gap-2">
                   <span className="font-extrabold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-emerald-500 text-lg">
-                    AETHER
+                    FinSphere
                   </span>
                   <span className="text-[10px] font-mono tracking-widest px-1.5 py-0.5 rounded bg-slate-100 dark:bg-cyan-950/80 text-cyan-600 dark:text-cyan-400 border border-slate-200 dark:border-cyan-800/60 font-semibold">
                     v2.4

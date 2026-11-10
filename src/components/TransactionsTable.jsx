@@ -66,7 +66,7 @@ export default function TransactionsTable({ refreshTrigger }) {
 
   const handleExportCSV = () => {
     const records = transactions.length > 0 ? transactions : fallbackTransactions;
-    const ok = downloadTransactionsCSV(records, 'aether_statement.csv');
+    const ok = downloadTransactionsCSV(records, 'FinSphere_statement.csv');
     if (ok) {
       setIsExported(true);
       setTimeout(() => setIsExported(false), 2500);
@@ -183,7 +183,7 @@ export default function TransactionsTable({ refreshTrigger }) {
                 ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border-emerald-500/40 shadow-glow-emerald'
                 : 'bg-slate-100 dark:bg-[#080d1a] border-slate-200 dark:border-slate-800 hover:border-cyan-500/50 text-slate-700 dark:text-slate-300 hover:text-cyan-600 dark:hover:text-cyan-300 hover:bg-slate-200/60 dark:hover:bg-slate-800/80'
             }`}
-            title="Download full transactions statement as CSV (aether_statement.csv)"
+            title="Download full transactions statement as CSV (FinSphere_statement.csv)"
           >
             {isExported ? (
               <>

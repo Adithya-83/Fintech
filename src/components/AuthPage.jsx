@@ -31,13 +31,13 @@ export default function AuthPage({ onLoginSuccess }) {
 
   // Quick fill helper for testing demo credentials
   const handleQuickDemoTrader = () => {
-    setEmail('testquant@aether.io');
+    setEmail('testquant@FinSphere.io');
     setPassword('strongpassword123');
     setErrorMessage(null);
   };
 
   const handleQuickDemoAdmin = () => {
-    setEmail('admin@aether.io');
+    setEmail('admin@FinSphere.io');
     setPassword('adminpassword123');
     setErrorMessage(null);
   };
@@ -102,7 +102,7 @@ export default function AuthPage({ onLoginSuccess }) {
             <Cpu className="w-7 h-7 text-cyan-500 dark:text-cyan-400 animate-pulse-slow" />
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold font-mono tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-emerald-500">
-            AETHER // CAPITAL
+            FinSphere // CAPITAL
           </h1>
           <p className="text-xs text-slate-500 dark:text-slate-400 font-mono tracking-widest mt-1 uppercase">
             Quant Investment Terminal • Secure Gateway
@@ -222,7 +222,7 @@ export default function AuthPage({ onLoginSuccess }) {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="trader@aether.quant"
+                  placeholder="trader@FinSphere.quant"
                   className="w-full bg-slate-50 dark:bg-[#060a14] border border-slate-200 dark:border-slate-800 rounded-xl pl-10 pr-3 py-2.5 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-cyan-500 transition-colors"
                 />
               </div>
@@ -297,11 +297,11 @@ export default function AuthPage({ onLoginSuccess }) {
             <div className="mt-4 p-2.5 rounded-xl bg-slate-50 dark:bg-[#070d1a] border border-slate-200 dark:border-slate-800/80 text-[10px] font-mono text-slate-500 dark:text-slate-400 space-y-1">
               <div className="flex items-center justify-between">
                 <span>Demo Trader (Role: user):</span>
-                <code className="text-cyan-600 dark:text-cyan-300 font-bold">testquant@aether.io / strongpassword123</code>
+                <code className="text-cyan-600 dark:text-cyan-300 font-bold">testquant@FinSphere.io / strongpassword123</code>
               </div>
               <div className="flex items-center justify-between">
                 <span>Demo Admin (Role: admin):</span>
-                <code className="text-amber-600 dark:text-amber-400 font-bold">admin@aether.io / adminpassword123</code>
+                <code className="text-amber-600 dark:text-amber-400 font-bold">admin@FinSphere.io / adminpassword123</code>
               </div>
             </div>
           )}

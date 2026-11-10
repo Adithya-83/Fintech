@@ -17,7 +17,7 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess }) {
   if (!isOpen) return null;
 
   const [isRegister, setIsRegister] = useState(false);
-  const [email, setEmail] = useState('testquant@aether.io');
+  const [email, setEmail] = useState('testquant@FinSphere.io');
   const [password, setPassword] = useState('strongpassword123');
   const [name, setName] = useState('Alex Vance');
   const [role, setRole] = useState('user');
@@ -141,7 +141,7 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess }) {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="trader@aether.quant"
+                placeholder="trader@FinSphere.quant"
                 className="w-full bg-slate-50 dark:bg-[#060a14] border border-slate-200 dark:border-slate-800 rounded-xl pl-9 pr-3 py-2 text-slate-900 dark:text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
               />
             </div>
@@ -177,7 +177,7 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess }) {
                 <button
                   type="button"
                   onClick={() => {
-                    setEmail('testquant@aether.io');
+                    setEmail('testquant@FinSphere.io');
                     setPassword('strongpassword123');
                   }}
                   className="text-cyan-500 hover:underline"
@@ -188,7 +188,7 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess }) {
                 <button
                   type="button"
                   onClick={() => {
-                    setEmail('admin@aether.io');
+                    setEmail('admin@FinSphere.io');
                     setPassword('adminpassword123');
                   }}
                   className="text-amber-500 hover:underline font-bold"
