@@ -55,7 +55,7 @@ def test_user_models_validation():
         name="Alex Vance",
         role="Lead Quant Trader"
     )
-    assert user.email == "quant@FinSphere.io"
+    assert user.email == "quant@finsphere.io"
     assert user.role == "Lead Quant Trader"
 
     login = UserLogin(email="quant@FinSphere.io", password="password123")
