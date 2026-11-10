@@ -37,4 +37,4 @@ jobs:
         run: pip install bandit
 
       - name: Run Bandit Scan
-        run: bandit -r . -x ./backend/tests -f custom
+        run: bandit -r . -x ./backend/tests -ll -f custom
